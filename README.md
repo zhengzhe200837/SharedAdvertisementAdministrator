@@ -1,0 +1,2 @@
+# SharedAdvertisementAdministrator
+管理员
