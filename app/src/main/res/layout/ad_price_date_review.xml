@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <CalendarView
+            android:id="@+id/ad_price_review_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:drawableLeft="@drawable/ad_price_time_upload"
+                    android:layout_marginTop="12dp"
+                    android:textSize="18sp"
+                    android:text="@string/ad_price_date_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:drawableLeft="@drawable/ad_price_time_check"
+                    android:layout_marginTop="12dp"
+                    android:textSize="18sp"
+                    android:text="@string/ad_price_date_check"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:drawableLeft="@drawable/ad_price_time_update"
+                    android:layout_marginTop="12dp"
+                    android:textSize="18sp"
+                    android:text="@string/ad_price_date_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:drawableLeft="@drawable/ad_price_time_display"
+                    android:layout_marginTop="12dp"
+                    android:textSize="18sp"
+                    android:text="@string/ad_price_date_display"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:gravity="right"
+                    android:layout_marginTop="12dp"
+                    android:textSize="18sp"
+                    android:text="@string/ad_price_order_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:gravity="right"
+                    android:layout_marginTop="12dp"
+                    android:textSize="18sp"
+                    android:text="@string/ad_price_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <Button
+                style="@style/button_right_bottom"
+                android:text="@string/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ad_price_date_cancel"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

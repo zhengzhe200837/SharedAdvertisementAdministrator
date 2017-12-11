@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/content_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/ad_detail_time" />
+
+        <Spinner
+            android:spinnerMode="dropdown"
+            android:id="@+id/time_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/ad_detail_last_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/ad_detail_last_time" />
+
+        <TextView
+            android:id="@+id/ad_detail_current_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/ad_detail_current_time" />
+
+        <TextView
+            android:id="@+id/ad_detail_next_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/ad_detail_next_time" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/content_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content_1"
+        android:weightSum="7">
+
+        <Button
+            style="@style/no_background"
+            android:id="@+id/ad_detail_monday"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="10sp" />
+
+        <Button
+            style="@style/no_background"
+            android:id="@+id/ad_detail_tuesday"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="10sp" />
+
+        <Button
+            style="@style/no_background"
+            android:id="@+id/ad_detail_wednesday"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="10sp" />
+
+        <Button
+            style="@style/no_background"
+            android:id="@+id/ad_detail_thursday"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="10sp" />
+
+        <Button
+            style="@style/no_background"
+            android:id="@+id/ad_detail_friday"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="10sp" />
+
+        <Button
+            style="@style/no_background"
+            android:id="@+id/ad_detail_saturday"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="10sp" />
+
+        <Button
+            style="@style/no_background"
+            android:id="@+id/ad_detail_sunday"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/ad_detail_cancel"
+        style="@style/button_right_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="cancelAdDetailActivity"
+        android:text="@string/cancel" />
+
+    <RelativeLayout
+        android:id="@+id/list_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ad_detail_cancel"
+        android:layout_below="@id/content_2"
+        android:minHeight="400dp" />
+</RelativeLayout>

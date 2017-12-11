@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="2">
+    <RelativeLayout
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <VideoView
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:minHeight="200dp"
+            android:id="@+id/order_form_video_view"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_weight="1"
+        android:id="@+id/order_form_operator"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+</LinearLayout>

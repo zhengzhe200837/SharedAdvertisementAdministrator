@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="log_today_white_circle">#e4e4e4</color>
+    <color name="log_today_calendar_bg">#ffffff</color>
+    <color name="log_today_current_text">#000000</color>
+    <color name="common_white">#ffffff</color>
+    <color name="log_today_green_line">#00ff00</color>
+    <color name="log_today_experience_text">#000000</color>
+</resources>
