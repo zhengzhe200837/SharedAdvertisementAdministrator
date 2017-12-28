@@ -68,7 +68,7 @@ public class MyAdActivity extends AppCompatActivity implements AdapterView.OnIte
         mUploadBillBoardInfoApi =Network.getUploadBillBoardInfoApi();
         BillboardInfo billboardInfo =new BillboardInfo();
         billboardInfo.setTableName(tableName);
-        billboardInfo.setBusinessPhone("4444444444");
+        billboardInfo.setBusinessPhone("88888888888");
         billboardInfo.setMethod("getBillboardByPhone");
         billboardInfo.setTodo(action);
         mUploadBillBoardInfoApi.getBillBoardInfo(billboardInfo)

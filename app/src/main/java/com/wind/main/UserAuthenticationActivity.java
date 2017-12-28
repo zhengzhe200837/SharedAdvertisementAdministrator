@@ -24,7 +24,6 @@ import com.wind.main.util.LogUtil;
 
 import org.afinal.simplecache.ACache;
 
-import cn.smssdk.SMSSDK;
 
 public class UserAuthenticationActivity extends AppCompatActivity {
 
@@ -36,7 +35,6 @@ public class UserAuthenticationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);//Appkey : 235cccde4a1ce | App Secret : 223cea512b095e5a036e8dfddac771ba
-
         setContentView(R.layout.message_authentication_layout);
         mLogInButton = (TextView) findViewById(R.id.mal_log_in);
         mLoginCancel = (Button) findViewById(R.id.login_cancel);

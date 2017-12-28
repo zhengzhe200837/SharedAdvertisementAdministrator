@@ -9,7 +9,6 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Toast;
 
@@ -43,7 +42,7 @@ public class SDPermissionManager {
             info = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
             String permissions[] = info.requestedPermissions;
             for (String permission : permissions) {
-                if(ActivityCompat.checkSelfPermission(mContext, permission) != PackageManager.PERMISSION_GRANTED){
+                if(ActivityCompat.checkSelfPermission(context,permission) != PackageManager.PERMISSION_GRANTED){
                     mDangerousPermissions.add(permission);
                 }
             }

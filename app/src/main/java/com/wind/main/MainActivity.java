@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         @TargetApi(Build.VERSION_CODES.M)
         @Override
         public void onRequestPermission(String[] permissions) {
-            ActivityCompat.requestPermissions(MainActivity.this, permissions,0);
+            ActivityCompat.requestPermissions(MainActivity.this,permissions,0);
         }
     };
     BillboardInfo billboardInfo;
@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
         }
         BillboardInfo billboardInfo =new BillboardInfo();
         billboardInfo.setTableName(tableName);
-        billboardInfo.setBusinessPhone("4444444444");
+        billboardInfo.setBusinessPhone("88888888888");
         billboardInfo.setMethod("getBillboardByPhone");
         billboardInfo.setTodo(action);
         mUploadBillBoardInfoApi.getBillBoardInfo(billboardInfo).subscribeOn(Schedulers.io())
@@ -402,7 +402,7 @@ public class MainActivity extends AppCompatActivity {
             //holder.adListItemIcon.setImageBitmap(mBillboardAndOrder.get(pos).getIcon());
             Glide.with(MainActivity.this).load(billboardInfos.get(pos).getPictureUrl()).into(holder.adListItemIcon);
             holder.adListItemName.setText(billboardInfos.get(pos).getEquipmentName());
-            holder.adListItemCount.setText(billboardInfos.get(pos).getOrderCount() +"");
+            holder.adListItemCount.setText(getResources().getString(R.string.order_name,billboardInfos.get(pos).getOrderCount()));
         }
 
         class ViewHolder {

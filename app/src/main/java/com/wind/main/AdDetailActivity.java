@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.MenuPopupWindow;
 import android.support.v7.widget.PopupMenu;
+import android.text.format.DateFormat;
+import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +33,11 @@ import com.wind.main.util.EnumUtil;
 import com.wind.main.util.LogUtil;
 import com.wind.main.util.TimeUtils;
 
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -623,10 +629,24 @@ public class AdDetailActivity extends AppCompatActivity {
 
         private void bindView(ViewHolder holder, int position) {
             holder.orderName.setText(getResources().getString(R.string.order_name,position));
-            holder.orderDate.setText(orderInfos.get(position).getPlayStartTime().substring(0,8));
-            holder.orderTime.setText(orderInfos.get(position).getPlayStartTime().substring(9,13));
+            String playStartTime =orderInfos.get(position).getPlayStartTime().substring(0,8);
+            holder.orderDate.setText(getDate(playStartTime));
+            holder.orderTime.setText(getTime(orderInfos.get(position).getPlayStartTime().substring(8,14)));
             holder.times.setText(context.getResources().getString(R.string.ad_detail_order_count,orderInfos.get(position).getPlayTimes()));
             holder.orderStatus.setText(getOrderStatusMessage(orderInfos.get(position).getOrderStatus()));
+        }
+
+        public String  getDate(String date){
+            StringBuffer stringBuffer =new StringBuffer();
+            stringBuffer.append(date.substring(0,4)+"-").append(date.substring(4,6)+"-").append(date.substring(6,8));
+            LogUtil.d("xx"+stringBuffer.toString());
+            return stringBuffer.toString();
+        }
+        public String getTime(String time){
+            LogUtil.d("xx"+time);
+            StringBuffer stringBuffer =new StringBuffer();
+            stringBuffer.append(time.substring(0,2)+":").append(time.substring(2,4)+":").append(time.substring(4,6));
+            return stringBuffer.toString();
         }
 
         private String getOrderStatusMessage(int status){
