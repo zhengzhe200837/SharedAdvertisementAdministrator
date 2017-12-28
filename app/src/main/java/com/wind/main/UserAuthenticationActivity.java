@@ -4,7 +4,9 @@ package com.wind.main;
  * Created by zhuyuqiang on 17-11-18.
  */
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,13 +22,9 @@ import com.wind.main.mode.interfaces.PhoneSignInInterface;
 import com.wind.main.mode.results.SignInResult;
 import com.wind.main.util.LogUtil;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
+import org.afinal.simplecache.ACache;
 
-import static com.wind.main.util.http.URLUtils.BASE_URL;
+import cn.smssdk.SMSSDK;
 
 public class UserAuthenticationActivity extends AppCompatActivity {
 
@@ -34,14 +32,16 @@ public class UserAuthenticationActivity extends AppCompatActivity {
     private EditText mPhoneEdit;
     private ActionBar mSupportActionBar;
     private Button mLoginCancel;
-
+    private ACache aCache =null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);//Appkey : 235cccde4a1ce | App Secret : 223cea512b095e5a036e8dfddac771ba
+
         setContentView(R.layout.message_authentication_layout);
         mLogInButton = (TextView) findViewById(R.id.mal_log_in);
         mLoginCancel = (Button) findViewById(R.id.login_cancel);
         mPhoneEdit = (EditText) findViewById(R.id.sd_login_phone);
+        aCache =ACache.get(getApplicationContext());
         mSupportActionBar = getSupportActionBar();
         if (mSupportActionBar != null) {
             mSupportActionBar.setTitle(R.string.maa_authenticate);
@@ -73,6 +73,7 @@ public class UserAuthenticationActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     startActivity(new Intent(UserAuthenticationActivity.this, AddAdActivity.class));
                     finish();
+                    aCache.put("is_login",true,300);
                     /*Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create(new Gson()))
                             .build();

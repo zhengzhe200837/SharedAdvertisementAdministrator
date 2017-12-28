@@ -15,4 +15,8 @@ public class LogUtil {
             android.util.Log.e(tag,message);
         }
     }
+
+    public static void d(String logMessage) {
+        android.util.Log.d("zz", logMessage);
+    }
 }

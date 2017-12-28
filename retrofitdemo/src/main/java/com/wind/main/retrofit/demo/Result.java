@@ -22,7 +22,7 @@ public class Result implements Serializable{
     public String getResult() {
         return result;
     }
-
+    //{"result" : "ok" ,"logMessage" : "ok"}
     public void setResult(String result) {
         this.result = result;
     }

@@ -6,9 +6,8 @@ package com.wind.main.util;
 
 
 import android.annotation.TargetApi;
-import android.icu.util.Calendar;
 import android.os.Build;
-
+import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -55,7 +54,7 @@ public class TimeUtils {
         long t = 0l;
         Calendar calendar = Calendar.getInstance();
         int weekOfDay = calendar.get(Calendar.DAY_OF_WEEK);
-        LogUtil.e("zyq","week of day = "+weekOfDay);
+        LogUtil.e("zyq1","week of day = "+weekOfDay);
 
         if(weekOfDay < 2){
             t = time-(7-weekOfDay)*DAY_TIME;

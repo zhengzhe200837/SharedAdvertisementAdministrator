@@ -8,9 +8,25 @@
         android:protectionLevel="signature" />
 
     <!-- Required -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <uses-permission android:name="com.wind.main.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -28,7 +44,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- permission : network -->
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -42,6 +57,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.baidu.lbsapi.API_KEY"
+            android:value="ip47e1AI9Pe4CIgGeaOHBNc6LhSo7cXG"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="standard">
@@ -55,6 +72,14 @@
         <activity android:name=".AddAdActivity" />
         <activity android:name=".AdDetailActivity" />
         <activity android:name=".OrderFormActivity" />
+        <activity android:name=".AdAddItemActivity"/>
+        <activity android:name=".MapActivity"/>
+        <activity android:name=".TimePickerActivity"
+            android:theme="@style/add_ad_Theme"/>
+        <activity android:name=".SelectAdByConditionActivity"/>
+        <activity android:name="com.wind.main.MyAdActivity"/>
+        <activity android:name=".MyWalleteActivity"/>
+
         <activity
             android:name=".PriceDateActivity"
             android:theme="@style/add_ad_Theme" />
@@ -181,6 +206,7 @@
             </intent-filter>
         </receiver>
 
+
         <!-- Required. For publish channel feature -->
         <!-- JPUSH_CHANNEL 是为了方便开发者统计APK分发渠道。-->
         <!-- 例如: -->
@@ -189,7 +215,6 @@
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
         <!-- Required. AppKey copied from Portal -->
         <meta-data android:name="JPUSH_APPKEY" android:value="4519ee6936564bda67f9690f"/>
-
     </application>
 
 </manifest>

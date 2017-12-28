@@ -56,8 +56,34 @@
                 android:gravity="center"
                 android:hint="@string/add_ad_delete_file" />
         </LinearLayout>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_open_time"
+            />
+        <TextView
+            android:background="@drawable/ad_rectangle_background"
+            android:id="@+id/add_open_time"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/add_open_time"
+            android:gravity="center"/>
+ </LinearLayout>
+    <Button
+    android:id="@+id/add_ad_ensure"
+    style="@style/button_left_bottom"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/ok" />
 
-        <LinearLayout
+    <Button
+        android:id="@+id/add_ad_cancel"
+        style="@style/button_right_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel" />
+</RelativeLayout>
+       <!--- <LinearLayout
             android:background="@drawable/ad_rectangle_background"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -164,6 +190,7 @@
                 android:background="@android:color/darker_gray" />
 
             <TextView
+                android:phoneNumber="true"
                 android:hint="@string/add_ad_phone_number_hint"
                 android:id="@+id/add_ad_phone_number"
                 android:layout_width="0dp"
@@ -187,5 +214,4 @@
         style="@style/button_right_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cancel" />
-</RelativeLayout>
+        android:text="@string/cancel" /> -->

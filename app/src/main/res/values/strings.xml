@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">SDDemo</string>
     <string name="main_title">世博大屏</string>
     <string name="ad_main_ad_advertisement">添加广告牌</string>
@@ -42,9 +42,11 @@
     <string name = "ad_detail_sunday">11/19\n星期日</string>
     <string name="ad_detail_order_count">%1$d个</string>
     <string name="ad_order_status_display">待播放</string>
+    <string name="ad_order_status_played">已播放</string>
     <string name="ad_order_status_upload">待上传</string>
     <string name="ad_order_status_update">待更新</string>
     <string name="ad_order_status_check">待审核</string>
+    <string name="ad_order_status_check_not_pass">审核不过</string>
 
     <string name="ad_order_form_ensure">订单撤回</string>
     <string name="ad_order_time_mark">倒计时58分58秒</string>
@@ -120,6 +122,7 @@
     <string name="ad_chart_time_x">时间</string>
     <string name="ad_chart_date_y">收入</string>
     <string name="ad_chart_date_x">日期</string>
+    <string name="ad_days">Days</string>
 
     <string name="ad_price_date_upload">待上传: 8个订单</string>
     <string name="ad_price_date_check">待审核: 11个订单</string>
@@ -127,4 +130,31 @@
     <string name="ad_price_date_display">待播放: 11个订单</string>
     <string name="ad_price_order_count">共有: 32个订单</string>
     <string name="ad_price_count">总价: 11个订单</string>
+
+    <string name ="ad_item_time_picker">时间选择器</string>
+    <string name ="picker_time_confirm">确定</string>
+    <string name ="picker_time_cancel">取消</string>
+    <string name ="open_time">起始时间：</string>
+    <string name ="close_time">终止时间：</string>
+    <string name ="open_time_item">开放时间<xliff:g id="num">%1$d</xliff:g>-<xliff:g id="time">%2$s</xliff:g>-单价<xliff:g id="price">%3$s</xliff:g></string>
+    <string name ="add_open_time">添加开放时间</string>
+    <string name="ad_open_date">开始日期</string>
+    <string name="ad_close_date">结束日期</string>
+    <string name="ad_start_time">开放时间</string>
+    <string name="ad_end_time">关闭时间</string>
+    <string name="ad_open_time">时间段</string>
+    <string name="ad_charge">收费标准</string>
+    <string name="ad_time_unit">时间单位</string>
+    <string name ="ad_detil_adress">详细地址</string>
+    <string name="ad_name">设备名称</string>
+    <string name="ad_phone">联系电话</string>
+    <string name="ad_show_tips">开放时间-工作日-单价399</string>
+    <string name="ad_done">完成</string>
+    <string name="add_detail_address">添加详细地址</string>
+    <string name="map_search">搜索</string>
+    <string name="ok_text">确定</string>
+    <string name="cancel_text">取消</string>
+    <string name="order_name" >订单<xliff:g id="count">%1$d</xliff:g></string>
+    <string name ="user_ad">我的广告牌</string>
+    <string name="user_account">我的钱包</string>
 </resources>

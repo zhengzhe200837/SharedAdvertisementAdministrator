@@ -2,6 +2,7 @@ package com.wind.main;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.LayoutInflaterCompat;
@@ -9,10 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.wind.main.network.Network;
+import com.wind.main.network.model.OrderInfo;
 import com.wind.main.util.LogUtil;
 
 import static com.wind.main.util.EnumUtil.ORDER_STATUS_CHECK;
@@ -34,6 +38,7 @@ public class OrderFormActivity extends AppCompatActivity {
     private Button mCheckYes,mCheckNo;
     private UIListener mListener;
     private VideoView mVideoView;
+    private String orderId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,7 +118,11 @@ public class OrderFormActivity extends AppCompatActivity {
         }
         mVideoView = (VideoView) findViewById(R.id.order_form_video_view);
         if(mOrderStatus != ORDER_STATUS_UPLOAD){
-            mVideoView.setVideoPath("/storage/emulated/0/DCIM/Camera/zhuyuqiang.3gp");
+           // mVideoView.setVideoPath(getIntent().getStringExtra("media_name"));
+            mVideoView.setMediaController(new MediaController(this));
+            LogUtil.d("media_name: "+getIntent().getStringExtra("media_name"));
+            mVideoView.setVideoURI(Uri.parse(getIntent().getStringExtra("media_name")));
+
         }
 
     }
@@ -212,10 +221,22 @@ public class OrderFormActivity extends AppCompatActivity {
                     break;
                 case R.id.order_form_check_yes:
                     Toast.makeText(OrderFormActivity.this,R.string.ad_order_check_yes,Toast.LENGTH_LONG).show();
+                    OrderInfo orderInfo =new OrderInfo();
+                    orderInfo.setTableName("orderInfo");
+                    orderInfo.setTodo("update");
+                    orderInfo.setOrderId(getIntent().getStringExtra("order_id"));
+                    orderInfo.setOrderStatus(0);
+                    Network.updateOrderInfo(OrderFormActivity.this,orderInfo);
                     OrderFormActivity.this.finish();
                     break;
                 case R.id.order_form_check_no:
                     Toast.makeText(OrderFormActivity.this,R.string.ad_order_check_no,Toast.LENGTH_LONG).show();
+                    OrderInfo orderInfo1 =new OrderInfo();
+                    orderInfo1.setTableName("orderInfo");
+                    orderInfo1.setTodo("update");
+                    orderInfo1.setOrderId(getIntent().getStringExtra("order_id"));
+                    orderInfo1.setOrderStatus(3);
+                    Network.updateOrderInfo(OrderFormActivity.this,orderInfo1);
                     OrderFormActivity.this.finish();
                     break;
                 case R.id.order_form_upload_mark:

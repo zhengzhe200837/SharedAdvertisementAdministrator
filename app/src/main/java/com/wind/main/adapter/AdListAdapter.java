@@ -27,6 +27,10 @@ public class AdListAdapter extends BaseAdapter {
         this.mAdListItems = adListItems;
     }
 
+    public void setData(List<AdListItem> data) {
+        mAdListItems = data;
+    }
+
     @Override
     public int getCount() {
         return mAdListItems.size();

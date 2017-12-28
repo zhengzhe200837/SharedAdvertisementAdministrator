@@ -1,5 +1,6 @@
 package com.wind.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,16 +13,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.wind.main.adapter.AdDetailListAdapter;
 import com.wind.main.adapter.CirCleTimeAdapter;
 import com.wind.main.mode.CircleTimeItem;
 import com.wind.main.mode.OrderFormItem;
+import com.wind.main.network.Network;
+import com.wind.main.network.api.UploadBillBoardInfoApi;
+import com.wind.main.network.model.OrderInfo;
 import com.wind.main.util.EnumUtil;
 import com.wind.main.util.LogUtil;
 import com.wind.main.util.TimeUtils;
@@ -29,6 +34,18 @@ import com.wind.main.util.TimeUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
+import static com.wind.main.util.EnumUtil.ORDER_STATUS_CHECK;
+import static com.wind.main.util.EnumUtil.ORDER_STATUS_DISPLAY;
+import static com.wind.main.util.EnumUtil.ORDER_STATUS_PLAYED;
+import static com.wind.main.util.EnumUtil.ORDER_STATUS_UPDATE;
+import static com.wind.main.util.EnumUtil.ORDER_STATUS_UPLOAD;
+import static com.wind.main.util.EnumUtil.ORDER_STTUS_NOT_PASS;
 
 /**
  * Created by zhuyuqiang on 17-11-18.
@@ -49,12 +66,15 @@ public class AdDetailActivity extends AppCompatActivity {
     private AdDetailListAdapter mAdDetailListAdapter;
     private List<CircleTimeItem> mCircleTimeItems;
     private CirCleTimeAdapter mCircleTimeAdapter;
+    private Context context;
+    private static String billboardId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initActionBar();
         setContentView(R.layout.ad_detail_layout);
+        context =this;
         initView();
         mListener = new UIListener();
         changeListViewContent(mCurrentSelectMode);
@@ -78,6 +98,10 @@ public class AdDetailActivity extends AppCompatActivity {
         mListContent = (RelativeLayout)findViewById(R.id.list_content);
         mTimeSelector.setAdapter(mCircleTimeAdapter);
         mTimeSelector.setSelection((mCircleTimeItems.size())/2);
+        orderInfos =new ArrayList<>();
+        orderInfo =new OrderInfo();
+        orderInfo.setBillboardId(getIntent().getStringExtra("billboard_id"));
+        billboardId =getIntent().getStringExtra("billboard_id");
         updateBackground(TimeUtils.getDayOfWeek(System.currentTimeMillis()));
         updateButtonContent();
     }
@@ -101,6 +125,7 @@ public class AdDetailActivity extends AppCompatActivity {
                                     break;
                                 case R.id.ad_menu_display:
                                     mCurrentSelectMode = EnumUtil.SELECT_DISPLAY;
+
                                     break;
                                 case R.id.ad_menu_need_upload:
                                     mCurrentSelectMode = EnumUtil.SELECT_UPLOAD;
@@ -112,6 +137,11 @@ public class AdDetailActivity extends AppCompatActivity {
                                     mCurrentSelectMode = EnumUtil.SELECT_CHECK;
                                     break;
                             }
+                            Intent intent =new Intent(AdDetailActivity.this,SelectAdByConditionActivity.class);
+                            intent.putExtra("currentSelectMode",mCurrentSelectMode);
+                            LogUtil.d("billboard: "+billboardId);
+                            intent.putExtra("billboardId",billboardId);
+                            startActivity(intent);
                             updateUI();
                             return true;
                         }
@@ -262,6 +292,7 @@ public class AdDetailActivity extends AppCompatActivity {
     private void updateButtonContent(){
         for(int i = 1;i<8;i++){
             String date = TimeUtils.getDateByFormat(mTimeBase+(i-1)*TimeUtils.DAY_TIME,TimeUtils.DATE_MONTH_DAY);
+            LogUtil.d("date: "+date);
             switch (i){
                 case EnumUtil.SELECT_DAY_1:
                     mDay1.setText(date+"\n"+getString(R.string.ad_monday));
@@ -290,7 +321,9 @@ public class AdDetailActivity extends AppCompatActivity {
 
     private void generatorCircleTime(){
         long time = TimeUtils.getCurrentTimeOfWeek(System.currentTimeMillis());
+        LogUtil.d("time: "+time);
         mCurrentSelectMode = TimeUtils.getDayOfWeek(System.currentTimeMillis());
+        LogUtil.d("select : "+mCurrentSelectMode);
         mCircleTimeItems = new ArrayList<>();
         for (int i = 8;i>0;i--){
             CircleTimeItem item1 = new CircleTimeItem();
@@ -411,9 +444,9 @@ public class AdDetailActivity extends AppCompatActivity {
 
     private void changeListViewContent(int select_day){
         mListContent.removeAllViews();
-        generator();
+      //  generator();
         ListView mListView = new ListView(AdDetailActivity.this);
-        mAdDetailListAdapter = new AdDetailListAdapter(AdDetailActivity.this,mOrderFormItems);
+        mAdDetailListAdapter = new AdDetailListAdapter();
         mListView.setAdapter(mAdDetailListAdapter);
         mListContent.addView(mListView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -426,10 +459,12 @@ public class AdDetailActivity extends AppCompatActivity {
     }
 
     private void startActivityByStatus(int position) {
-        int status = mOrderFormItems.get(position).getOrderStatus();
+        int status = orderInfos.get(position).getOrderStatus();
         LogUtil.e("ad","order-status = "+status);
         Intent intent = new Intent(this,OrderFormActivity.class);
         intent.putExtra("order_status",status);
+        intent.putExtra("media_name",orderInfos.get(position).getMediaName());
+        intent.putExtra("order_id",orderInfos.get(position).getOrderId());
         startActivity(intent);
     }
 
@@ -458,6 +493,7 @@ public class AdDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        getOrderInfo("orderInfo","query");
         super.onResume();
     }
 
@@ -506,6 +542,121 @@ public class AdDetailActivity extends AppCompatActivity {
 
         if(mNextTime != null){
             mNextTime.setOnClickListener(null);
+        }
+    }
+
+    private List<OrderInfo> orderInfos;
+    private OrderInfo orderInfo;
+     private UploadBillBoardInfoApi mUploadBillBoardInfoApi;
+    public  List<OrderInfo> getOrderInfo(String tableName,String todo){
+        if(mUploadBillBoardInfoApi==null){
+            mUploadBillBoardInfoApi = Network.getUploadBillBoardInfoApi();
+        }
+        orderInfo.setTableName(tableName);
+        orderInfo.setTodo(todo);
+        orderInfo.setMethod("queryByBillboardId");
+        mUploadBillBoardInfoApi.getOrderInfo(orderInfo).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<OrderInfo>>() {
+            @Override
+            public void accept(@NonNull List<OrderInfo> orderInfos1) throws Exception {
+                LogUtil.d("xx: "+orderInfos1.size());
+                orderInfos =orderInfos1;
+                mAdDetailListAdapter.notifyDataSetChanged();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                LogUtil.d("throwable: "+throwable.getMessage());
+                Toast.makeText(AdDetailActivity.this,throwable.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+        return orderInfos;
+    }
+
+    public class AdDetailListAdapter extends BaseAdapter {
+
+//        private Context mContext;
+//        private List<OrderInfo> mItems;
+//
+//        public AdDetailListAdapter(Context context, List<OrderInfo> items){
+//            LogUtil.d("AdDetailListAdapter" +items);
+//            this.mContext = context;
+//            this.mItems = items;
+//        }
+        @Override
+        public int getCount() {
+            LogUtil.d("getCount" +orderInfos.size());
+            return orderInfos.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            LogUtil.d("getItem"+position);
+            return orderInfos.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            LogUtil.d("getItemId" +position);
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LogUtil.d("position: "+position);
+            ViewHolder holder = null;
+            if(convertView == null){
+                holder = new ViewHolder();
+                convertView = LayoutInflater.from(context).inflate(R.layout.ad_detail_item_layout,null);
+                holder.orderName = (TextView) convertView.findViewById(R.id.ad_detail_order_name);
+                holder.orderDate = (TextView)convertView.findViewById(R.id.ad_detail_order_date);
+                holder.orderTime = (TextView)convertView.findViewById(R.id.ad_detail_order_time);
+                holder.times = (TextView)convertView.findViewById(R.id.ad_detail_order_count);
+                holder.orderStatus = (TextView)convertView.findViewById(R.id.ad_detail_order_status);
+                convertView.setTag(holder);
+            }else{
+                holder = (ViewHolder) convertView.getTag();
+            }
+            bindView(holder,position);
+            return convertView;
+        }
+
+        private void bindView(ViewHolder holder, int position) {
+            holder.orderName.setText(getResources().getString(R.string.order_name,position));
+            holder.orderDate.setText(orderInfos.get(position).getPlayStartTime().substring(0,8));
+            holder.orderTime.setText(orderInfos.get(position).getPlayStartTime().substring(9,13));
+            holder.times.setText(context.getResources().getString(R.string.ad_detail_order_count,orderInfos.get(position).getPlayTimes()));
+            holder.orderStatus.setText(getOrderStatusMessage(orderInfos.get(position).getOrderStatus()));
+        }
+
+        private String getOrderStatusMessage(int status){
+            switch (status){
+                case ORDER_STATUS_DISPLAY:
+                    return context.getResources().getString(R.string.ad_order_status_display);
+                case ORDER_STATUS_PLAYED:
+                    return context.getResources().getString(R.string.ad_order_status_played);
+                case ORDER_STTUS_NOT_PASS:
+                    return context.getResources().getString(R.string.ad_order_status_check_not_pass);
+                case ORDER_STATUS_UPLOAD:
+                    return context.getResources().getString(R.string.ad_order_status_upload);
+
+                case ORDER_STATUS_UPDATE:
+                    return context.getResources().getString(R.string.ad_order_status_update);
+
+                case ORDER_STATUS_CHECK:
+                    return context.getResources().getString(R.string.ad_order_status_check);
+
+                default:
+                    return context.getResources().getString(R.string.ad_order_status_display);
+            }
+        }
+
+        class ViewHolder{
+            TextView orderName;
+            TextView orderDate;
+            TextView orderTime;
+            TextView times;
+            TextView orderStatus;
         }
     }
 
